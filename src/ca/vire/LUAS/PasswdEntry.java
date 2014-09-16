@@ -22,8 +22,6 @@ THE SOFTWARE.
 
 package ca.vire.LUAS;
 
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
 
 public class PasswdEntry {
 
@@ -49,6 +47,10 @@ public class PasswdEntry {
       this.isDefined = false;
    }
 
+   public PasswdEntry(String Entry) {
+      this.SetFromString(Entry);
+   }
+   
    public String GetFormattedEntry() {
       String Result = null;
 
@@ -62,24 +64,18 @@ public class PasswdEntry {
    }
 
    public void SetFromString(String Entry) {
-      Pattern EntryPattern = Pattern.compile(("(\\S+):(\\S+):(\\S+):(\\S*):(\\S*):(\\S+):(\\S+)"));
-      Util.InfoMsg("Examining: \"" + Entry + "\"");
+      // split will delimit all fields, even if empty.
+      // Numbers for user id / group id must be present however
+      String[] Elements = Entry.split(":");
 
-      try {
-         Matcher m = EntryPattern.matcher(Entry);
+      this.Username = Elements[0];
+      this.Password = Elements[1];
+      this.UserID = Integer.parseInt(Elements[2]);
+      this.GroupID = Integer.parseInt(Elements[3]);
+      this.UserIDInfo = Elements[4];
+      this.HomeDirectory = Elements[5];
+      this.Shell = Elements[6];
 
-         this.Username = m.group(1);
-         this.Password = m.group(2);
-         this.UserID = Integer.parseInt(m.group(3));
-         this.GroupID = Integer.parseInt(m.group(4));
-         this.UserIDInfo = m.group(5);
-         this.HomeDirectory = m.group(6);
-         this.Shell = m.group(7);
-
-         this.isDefined = true;
-
-      } catch (IllegalStateException e) {
-         Util.ErrorMsg("Could not match regex expression: " + e.getMessage());
-      }
+      this.isDefined = true;      
    }
 }

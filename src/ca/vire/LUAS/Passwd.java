@@ -26,6 +26,8 @@ import java.io.BufferedReader;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
 
 /* 
  * This class will represent a passwd file object, the default constructor takes the path
@@ -34,19 +36,35 @@ import java.io.IOException;
 
 public class Passwd {
 
+   public int NumEntries;
+   public boolean isDefined;
+   
+   // Contains all the elements in a passwd file
+   private List<PasswdEntry> Entries = new ArrayList<PasswdEntry>();
+   
+   public Passwd() {
+      NumEntries = 0;
+      isDefined = false;
+   }
+   
    public Passwd(String FilePath) {
       BufferedReader reader;
       String line;
-
-      PasswdEntry entry = new PasswdEntry();
+      int LineNumber = 0;
 
       try {
          reader = new BufferedReader(new FileReader(FilePath));
-         Util.LogMsg("File contains:");
          try {
-            entry.SetFromString(reader.readLine());
-            Util.InfoMsg("The username is " + entry.Username + " and shell is "
-                  + entry.Shell);
+            while ((line = reader.readLine()) != null) {
+               if (line.length() > 6) {
+                  ++LineNumber;
+                  Entries.add(new PasswdEntry(line));
+               }
+            }
+            this.NumEntries = LineNumber;
+            Util.InfoMsg("Loaded " + this.NumEntries + " entries.");            
+            this.isDefined = true;
+            reader.close();
          } catch (IOException e) {
             e.printStackTrace();
          }
