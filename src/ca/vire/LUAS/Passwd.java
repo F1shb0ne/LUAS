@@ -1,5 +1,5 @@
 /*
-Copyright (c) <year> <copyright holders>
+Copyright (c) 2014 F1shb0ne f1shb0nes80@gmail.com
 
 Permission is hereby granted, free of charge, to any person obtaining a copy
 of this software and associated documentation files (the "Software"), to deal
@@ -34,37 +34,25 @@ import java.io.IOException;
 
 public class Passwd {
 
+   public Passwd(String FilePath) {
+      BufferedReader reader;
+      String line;
 
-	public Passwd(String FilePath) {
-		
-		BufferedReader reader;
-		String line;
-		
-		PasswdEntry entry = new PasswdEntry();
-		
-		try {
-			reader = new BufferedReader(new FileReader(FilePath));
-			
-		    Util.LogMsg("File contains:");
-			try {
-				/*
-				while ((line = reader.readLine()) != null) {
-				    Util.InfoMsg(line);
-				}
-				*/
-				entry.SetFromString(reader.readLine());
-				
-				Util.InfoMsg("The username is " + entry.Username + " and shell is " + entry.Shell);
-				
-			} catch (IOException e) {
-				e.printStackTrace();
-			}
-			
-		} catch (FileNotFoundException e) {
-			Util.ErrorMsg("Could not open \"" + FilePath + "\" for reading.");
-			e.printStackTrace();
-		}
-		
-		
-	}
+      PasswdEntry entry = new PasswdEntry();
+
+      try {
+         reader = new BufferedReader(new FileReader(FilePath));
+         Util.LogMsg("File contains:");
+         try {
+            entry.SetFromString(reader.readLine());
+            Util.InfoMsg("The username is " + entry.Username + " and shell is "
+                  + entry.Shell);
+         } catch (IOException e) {
+            e.printStackTrace();
+         }
+      } catch (FileNotFoundException e) {
+         Util.ErrorMsg("Could not open \"" + FilePath + "\" for reading.");
+         e.printStackTrace();
+      }
+   }
 }

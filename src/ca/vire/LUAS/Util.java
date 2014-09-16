@@ -23,13 +23,15 @@ THE SOFTWARE.
 package ca.vire.LUAS;
 
 public class Util {
-	public static void LogMsg(String msg) {
-		System.out.println(msg);
-	}
-	public static void ErrorMsg(String msg) {
-		System.out.println(msg);
-	}
-	public static void InfoMsg(String msg) {
-		System.out.println(msg);
-	}
+   public static void LogMsg(String msg) {
+      System.out.println(msg);
+   }
+
+   public static void ErrorMsg(String msg) {
+      System.out.println(msg);
+   }
+
+   public static void InfoMsg(String msg) {
+      System.out.println(msg);
+   }
 }

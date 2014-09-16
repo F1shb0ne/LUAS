@@ -27,59 +27,59 @@ import java.util.regex.Pattern;
 
 public class PasswdEntry {
 
-	public String Username;
-	public String Password;
-	public int UserID;
-	public int GroupID;
-	public String UserIDInfo;
-	public String HomeDirectory;
-	public String Shell;
-	
-	public boolean isDefined;
+   public String Username;
+   public String Password;
+   public int UserID;
+   public int GroupID;
+   public String UserIDInfo;
+   public String HomeDirectory;
+   public String Shell;
 
-	public PasswdEntry() {
-		this.Username = null;
-		this.Password = "x";
-		this.UserID = 0;
-		this.GroupID = 0;
-		this.UserIDInfo = "";
-		this.HomeDirectory = "";
-		this.Shell = "/sbin/nologin";
-		
-		this.isDefined = false;
-	}
-	
-	public String GetFormattedEntry() {
-		String Result = null;
-		
-		if (this.isDefined) {
-			Result = this.Username + ":" + this.Password + ":" + this.UserID + ":" + this.GroupID + ":" +
-					this.UserIDInfo + ":" + this.HomeDirectory + ":" + this.Shell; 			
-		}
-		
-		return Result;
-	}
+   public boolean isDefined;
 
-	public void SetFromString(String Entry) {
-		Pattern EntryPattern = Pattern.compile(("(\\S+):(\\S+):(\\S+):(\\S*):(\\S*):(\\S+):(\\S+)"));
-		Util.InfoMsg("Examining: \"" + Entry + "\"");
-		
-		try {
-		Matcher m = EntryPattern.matcher(Entry);
+   public PasswdEntry() {
+      this.Username = null;
+      this.Password = "x";
+      this.UserID = 0;
+      this.GroupID = 0;
+      this.UserIDInfo = "";
+      this.HomeDirectory = "";
+      this.Shell = "/sbin/nologin";
 
-		this.Username = m.group(1);
-		this.Password = m.group(2);
-		this.UserID = Integer.parseInt(m.group(3));
-		this.GroupID = Integer.parseInt(m.group(4));
-		this.UserIDInfo = m.group(5);
-		this.HomeDirectory = m.group(6);
-		this.Shell = m.group(7);
+      this.isDefined = false;
+   }
 
-		this.isDefined = true;
+   public String GetFormattedEntry() {
+      String Result = null;
 
-		} catch (IllegalStateException e) {			
-			Util.ErrorMsg("Could not match regex expression: " + e.getMessage());
-		}
-		
-	}
+      if (this.isDefined) {
+         Result = this.Username + ":" + this.Password + ":" + this.UserID + ":"
+               + this.GroupID + ":" + this.UserIDInfo + ":"
+               + this.HomeDirectory + ":" + this.Shell;
+      }
+
+      return Result;
+   }
+
+   public void SetFromString(String Entry) {
+      Pattern EntryPattern = Pattern.compile(("(\\S+):(\\S+):(\\S+):(\\S*):(\\S*):(\\S+):(\\S+)"));
+      Util.InfoMsg("Examining: \"" + Entry + "\"");
+
+      try {
+         Matcher m = EntryPattern.matcher(Entry);
+
+         this.Username = m.group(1);
+         this.Password = m.group(2);
+         this.UserID = Integer.parseInt(m.group(3));
+         this.GroupID = Integer.parseInt(m.group(4));
+         this.UserIDInfo = m.group(5);
+         this.HomeDirectory = m.group(6);
+         this.Shell = m.group(7);
+
+         this.isDefined = true;
+
+      } catch (IllegalStateException e) {
+         Util.ErrorMsg("Could not match regex expression: " + e.getMessage());
+      }
+   }
 }
